@@ -2,25 +2,22 @@
 
 ## Dependencies
 
-- [TypeScript 2.1](https://www.typescriptlang.org)
-- [gulp 4](http://gulpjs.com/)
-- [rollup](http://rollupjs.org/)
-- [Google Closure Compiler](https://github.com/google/closure-compiler)
-- [Browsersync](https://www.browsersync.io/)
+- [TypeScript 2.3](https://www.typescriptlang.org)
+- [Webpack](https://webpack.js.org)
 
 ## Project Tree structure
 
 ```
 ivi-boilerplate
-├── build
 ├── dist
+├── public
+│   └── index.html
 ├── src
-│   ├── index.html
-│   └── main.js
-├── gulpfile.js
+│   └── main.ts
 ├── package.json
 ├── tsconfig.json
-└── tslint.json
+├── tslint.json
+└── webpack.config.js
 ```
 
 ## Getting started
@@ -31,20 +28,20 @@ Install all dependencies.
 $ npm install
 ```
 
-Start `gulp serve` task.
+Start `webpack-dev-server` task.
 
 ```sh
-$ gulp serve
+$ npm run serve
 ```
 
-## Gulp Tasks
+## NPM Scripts
 
 ### serve
 
-Launches http server, watches for changes and compiles in Development Mode when something is changed.
+Launches `webpack-dev-server`, watches for changes and compiles in Development Mode when something is changed.
 
 ```sh
-$ gulp serve
+$ npm run serve
 ```
 
 ### dist
@@ -52,21 +49,5 @@ $ gulp serve
 Builds application for production.
 
 ```sh
-$ gulp dist
-```
-
-### clean
-
-Deletes `build` and `dist` directories.
-
-```sh
-$ gulp clean
-```
-
-### default
-
-Alias for a dist task.
-
-```sh
-$ gulp
+$ npm run dist
 ```
