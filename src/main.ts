@@ -1,7 +1,37 @@
-import { render, $h, $c } from "ivi";
+import { createStore, render, update, connect, selectorData, $h } from "ivi";
 
-function HelloComponent(text: string) {
+interface State {
+    text: string;
+}
+
+const store = createStore(
+    {
+        text: "World",
+    },
+    function (state: State, action: any) {
+        return state;
+    },
+    update,
+);
+
+function Hello(text: string) {
     return $h("div").children(`Hello ${text}!`);
 }
 
-render($c(HelloComponent, "World"), document.getElementById("app") !);
+interface SelectText {
+    in: string;
+    out: string;
+}
+
+const $Hello = connect(
+    function (prev: SelectText) {
+        const text = store.getState().text;
+        if (prev && prev.in === text) {
+            return prev;
+        }
+        return selectorData(text);
+    },
+    Hello,
+);
+
+render($Hello(), document.getElementById("app")!);
