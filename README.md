@@ -4,6 +4,7 @@
 
 - [TypeScript 2.4](https://www.typescriptlang.org)
 - [Webpack 3.1](https://webpack.js.org)
+- [Google Closure Compiler](https://github.com/google/closure-compiler/)
 
 ## Project Tree structure
 
@@ -17,7 +18,8 @@ ivi-boilerplate
 ├── package.json
 ├── tsconfig.json
 ├── tslint.json
-└── webpack.config.js
+├── webpack.config.js
+└── webpack.prod.config.js
 ```
 
 ## Getting started

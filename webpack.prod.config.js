@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const ClosureCompilerPlugin = require("webpack-closure-compiler");
 
 module.exports = {
   entry: "./src/main.ts",
@@ -10,26 +11,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: [
-          {
-            loader: "babel-loader",
-            options: {
-              presets: ["es2015", "es2016"],
-            },
-          },
-        ],
-      },
-      {
         test: /\.ts$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: "babel-loader",
-            options: {
-              presets: ["es2015", "es2016"],
-            },
-          },
           {
             loader: "ts-loader",
             options: {
@@ -45,20 +29,24 @@ module.exports = {
       "__IVI_DEV__": false,
       "__IVI_BROWSER__": true,
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true,
+    new ClosureCompilerPlugin({
+      compiler: {
+        compilation_level: "ADVANCED",
+        language_in: "ECMASCRIPT_2016",
+        language_out: "ECMASCRIPT5_STRICT",
+        use_types_for_optimization: true,
+        assume_function_wrapper: true,
+        isolation_mode: "IIFE",
+        summary_detail_level: 3,
+        warning_level: "QUIET",
+        rewrite_polyfills: true,
       },
-      compress: {
-        screw_ie8: true,
-      },
-      comments: false,
+      concurrency: 3,
     }),
   ],
   resolve: {
