@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const ClosureCompilerPlugin = require("webpack-closure-compiler");
+const CSSPlugin = require("modular-css-webpack/plugin");
 
 module.exports = {
   entry: "./src/main.ts",
@@ -11,13 +12,17 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: "modular-css-webpack/loader"
+      },
+      {
         test: /\.ts$/,
         exclude: /node_modules/,
         use: [
           {
             loader: "ts-loader",
             options: {
-              configFileName: "tsconfig.json",
+              configFile: "tsconfig.json",
             },
           },
         ],
@@ -25,15 +30,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({
-      "__IVI_DEV__": false,
-      "__IVI_BROWSER__": true,
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new ClosureCompilerPlugin({
       compiler: {
         compilation_level: "ADVANCED",
@@ -44,12 +45,21 @@ module.exports = {
         isolation_mode: "IIFE",
         summary_detail_level: 3,
         warning_level: "QUIET",
-        rewrite_polyfills: true,
+        rewrite_polyfills: false,
+        // jscomp_off: "*",
+        new_type_inf: true
       },
       concurrency: 3,
+    }),
+    new CSSPlugin({
+      css: "./main.css",
+      json: "./css.json",
     }),
   ],
   resolve: {
     extensions: [".ts", ".js"],
+    alias: {
+      "ivi-vars": "ivi-vars/browser",
+    },
   },
 };

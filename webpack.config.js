@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const CSSPlugin = require("modular-css-webpack/plugin");
 
 module.exports = {
   entry: "./src/main.ts",
@@ -9,6 +10,10 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: "modular-css-webpack/loader"
+      },
       {
         test: /\.js$/,
         use: ["source-map-loader"],
@@ -21,7 +26,7 @@ module.exports = {
           {
             loader: "ts-loader",
             options: {
-              configFileName: "tsconfig.json",
+              configFile: "tsconfig.json",
             },
           },
         ],
@@ -35,6 +40,10 @@ module.exports = {
     }),
     new webpack.SourceMapDevToolPlugin({
       test: /\.(ts|js)$/,
+    }),
+    new CSSPlugin({
+      css: "./dist/main.css",
+      json: "./dist/css.json",
     }),
   ],
   resolve: {

@@ -1,6 +1,7 @@
 import { render, update, connect, selectorData } from "ivi";
 import * as h from "ivi-html";
 import { createStore } from "ivi-state";
+import * as css from "./main.css";
 
 interface State {
   text: string;
@@ -17,7 +18,7 @@ const store = createStore(
 );
 
 function Hello(text: string) {
-  return h.div().children(`Hello ${text}!`);
+  return h.div(css.Main).children(`Hello ${text}!`);
 }
 
 interface SelectText {
