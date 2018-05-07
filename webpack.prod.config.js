@@ -1,9 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
-const ClosureCompilerPlugin = require("webpack-closure-compiler");
 const CSSPlugin = require("modular-css-webpack/plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
+  mode: "production",
   entry: "./src/main.ts",
   output: {
     filename: "bundle.js",
@@ -30,26 +31,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new ClosureCompilerPlugin({
-      compiler: {
-        compilation_level: "ADVANCED",
-        language_in: "ECMASCRIPT_2016",
-        language_out: "ECMASCRIPT5_STRICT",
-        use_types_for_optimization: true,
-        assume_function_wrapper: true,
-        isolation_mode: "IIFE",
-        summary_detail_level: 3,
-        warning_level: "QUIET",
-        rewrite_polyfills: false,
-        // jscomp_off: "*",
-        new_type_inf: true
-      },
-      concurrency: 3,
+    new webpack.DefinePlugin({
+      "DEBUG": "false",
+      "TARGET": JSON.stringify("browser"),
     }),
     new CSSPlugin({
       css: "./main.css",
@@ -58,8 +42,5 @@ module.exports = {
   ],
   resolve: {
     extensions: [".ts", ".js"],
-    alias: {
-      "ivi-vars": "ivi-vars/browser",
-    },
   },
 };

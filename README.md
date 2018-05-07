@@ -2,8 +2,8 @@
 
 ## Dependencies
 
-- [TypeScript 2.4](https://www.typescriptlang.org)
-- [Webpack 3.1](https://webpack.js.org)
+- [TypeScript 2.8](https://www.typescriptlang.org)
+- [Webpack 4.7](https://webpack.js.org)
 - [Google Closure Compiler](https://github.com/google/closure-compiler/)
 
 ## Project Tree structure

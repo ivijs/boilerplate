@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const CSSPlugin = require("modular-css-webpack/plugin");
 
 module.exports = {
+  mode: "development",
   entry: "./src/main.ts",
   output: {
     filename: "bundle.js",
@@ -35,15 +36,12 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "__IVI_DEV__": true,
-      "__IVI_BROWSER__": true,
-    }),
-    new webpack.SourceMapDevToolPlugin({
-      test: /\.(ts|js)$/,
+      "DEBUG": "false",
+      "TARGET": JSON.stringify("browser"),
     }),
     new CSSPlugin({
-      css: "./dist/main.css",
-      json: "./dist/css.json",
+      css: "./main.css",
+      json: "./css.json",
     }),
   ],
   resolve: {

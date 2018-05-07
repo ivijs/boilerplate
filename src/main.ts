@@ -1,40 +1,27 @@
-import { render, update, connect, selectorData } from "ivi";
-import * as h from "ivi-html";
+import { render, update, connect } from "ivi";
 import { createStore } from "ivi-state";
+import * as h from "ivi-html";
 import * as css from "./main.css";
 
 interface State {
   text: string;
 }
 
-const store = createStore(
+const store = createStore<State, any>(
   {
     text: "World",
   },
-  function (state: State, action: any) {
-    return state;
-  },
+  (state, action) => state,
   update,
 );
 
-function Hello(text: string) {
-  return h.div(css.Main).children(`Hello ${text}!`);
-}
-
-interface SelectText {
-  in: string;
-  out: string;
-}
-
-const hello = connect(
-  function (prev: SelectText) {
+const hello = connect<string>(
+  (prev) => {
     const text = store.getState().text;
-    if (prev && prev.in === text) {
-      return prev;
-    }
-    return selectorData(text);
+    return (prev && prev === text) ? prev :
+      text;
   },
-  Hello,
+  (text) => h.div(css.Main).c(`Hello ${text}!`),
 );
 
 render(hello(), document.getElementById("app")!);
