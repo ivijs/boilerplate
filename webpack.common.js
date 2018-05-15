@@ -1,15 +1,22 @@
+"use strict";
+
 const path = require("path");
 const webpack = require("webpack");
-const CSSPlugin = require("modular-css-webpack/plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: "development",
   entry: "./src/main.ts",
   output: {
     filename: "bundle.js",
+    chunkFilename: "[chunkhash].js",
+    publicPath: "/",
     path: path.resolve(__dirname, "dist"),
   },
+  resolve: {
+    extensions: [".js", ".ts", ".json"],
+  },
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.css$/,
@@ -25,6 +32,12 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
+            loader: "cache-loader",
+            options: {
+              cacheDirectory: path.resolve(__dirname, "node_modules", ".cache", "cache-loader"),
+            },
+          },
+          {
             loader: "ts-loader",
             options: {
               configFile: "tsconfig.json",
@@ -34,25 +47,11 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      "DEBUG": "false",
-      "TARGET": JSON.stringify("browser"),
-    }),
-    new CSSPlugin({
-      css: "./main.css",
-      json: "./css.json",
-    }),
-  ],
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
-  devServer: {
-    port: 9000,
-    host: "localhost",
-    historyApiFallback: true,
-    noInfo: false,
-    stats: "minimal",
-    contentBase: path.join(__dirname, "public"),
+  node: {
+    dgram: "empty",
+    fs: "empty",
+    net: "empty",
+    tls: "empty",
+    child_process: "empty",
   },
 };

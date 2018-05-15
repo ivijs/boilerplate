@@ -1,6 +1,6 @@
 import { render, update, connect } from "ivi";
 import { createStore } from "ivi-state";
-import * as h from "ivi-html";
+import { div } from "ivi-html";
 import * as css from "./main.css";
 
 interface State {
@@ -21,7 +21,7 @@ const hello = connect<string>(
     return (prev && prev === text) ? prev :
       text;
   },
-  (text) => h.div(css.Main).c(`Hello ${text}!`),
+  (text) => div(css.Main).c(`Hello ${text}!`),
 );
 
 render(hello(), document.getElementById("app")!);

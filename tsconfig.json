@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
     "outDir": "dist",
@@ -8,7 +8,11 @@
     "inlineSourceMap": true,
     "inlineSources": false,
     "noEmitHelpers": true,
+    "importHelpers": true,
     "removeComments": false,
+    "types": [
+      "node"
+    ],
     "lib": [
       "es2016",
       "es2015",
@@ -21,6 +25,5 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "compileOnSave": false
+  ]
 }
