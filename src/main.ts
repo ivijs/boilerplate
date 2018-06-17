@@ -7,7 +7,7 @@ interface State {
   text: string;
 }
 
-const store = createStore<State, any>(
+const STORE = createStore<State, any>(
   {
     text: "World",
   },
@@ -17,7 +17,7 @@ const store = createStore<State, any>(
 
 const hello = connect<string>(
   (prev) => {
-    const text = store.getState().text;
+    const text = STORE.getState().text;
     return (prev && prev === text) ? prev :
       text;
   },
